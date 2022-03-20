@@ -9,11 +9,13 @@ let files = fs.readdirSync(inDir);
 files.forEach((file) => {
   let data = yaml.load(fs.readFileSync(inDir + file, "utf8"));
 
-  if (file == ".lock") return;
+  if (data == undefined) return;
+  if (data.options == undefined) return;
 
   data.options.repeatable = true;
   data.options.cooldown.enabled = true;
   data.options.cooldown.time = 10080;
 
   fs.writeFileSync(outDir + file, yaml.dump(data));
+  console.log(file + " done");
 });
